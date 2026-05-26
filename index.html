@@ -48,25 +48,6 @@ body{
     background:linear-gradient(135deg,#004d2a,#00b85c);
 }
 
-.title{
-    font-size:42px;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-.status{
-    font-size:24px;
-    margin-top:10px;
-}
-
-.device{
-    margin-top:8px;
-    opacity:0.9;
-    font-size:17px;
-}
-
-/* 연결 후 축소 */
-
 .connectedCompact{
     padding:25px 20px;
 }
@@ -81,6 +62,21 @@ body{
 
 .connectedCompact .device{
     font-size:15px;
+}
+
+.title{
+    font-size:42px;
+    font-weight:bold;
+}
+
+.status{
+    font-size:24px;
+    margin-top:10px;
+}
+
+.device{
+    margin-top:8px;
+    font-size:17px;
 }
 
 /* 버튼 */
@@ -116,11 +112,6 @@ body{
     border-radius:22px;
     padding:22px;
     margin-bottom:20px;
-    box-shadow:0 0 15px rgba(0,0,0,0.3);
-}
-
-.card h2{
-    margin-bottom:15px;
 }
 
 /* 경고 */
@@ -141,7 +132,7 @@ body{
     100%{opacity:1;}
 }
 
-/* 하단 네비 */
+/* 하단 메뉴 */
 
 .bottomNav{
     position:fixed;
@@ -168,8 +159,12 @@ body{
     transition:0.3s;
 }
 
+.activeNav{
+    color:#b266ff;
+}
+
 .navText{
-    font-size:14px;
+    font-size:13px;
 }
 
 .iconSVG{
@@ -178,12 +173,6 @@ body{
     stroke:currentColor;
     fill:none;
     stroke-width:2;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-
-.activeNav{
-    color:#b266ff;
 }
 
 /* 입력창 */
@@ -206,7 +195,12 @@ canvas{
     padding:10px;
 }
 
-/* 정보 */
+.historyCard{
+    background:#272727;
+    border-radius:15px;
+    padding:15px;
+    margin-top:15px;
+}
 
 .infoBox{
     margin-top:20px;
@@ -253,7 +247,7 @@ canvas{
 
             <p>
                 물건이 일정 시간 이상 감지되면
-                사용자에게 즉시 알림을 보냅니다.
+                사용자에게 알림을 전송합니다.
             </p>
 
             <div class="infoBox">
@@ -283,28 +277,19 @@ canvas{
 
             <h2>설정</h2>
 
-            <label>사용자 이름</label>
-            <input type="text" placeholder="사용자 이름 입력">
-
-            <label>기기 이름</label>
-            <input type="text" placeholder="예 : Table Sensor #03">
-
             <label>압력 감지 시간 (초)</label>
             <input type="number" id="timeLimit" value="10">
-
-            <label>알림 방식</label>
-            <input type="text" placeholder="앱 알림">
 
         </div>
 
     </div>
 
-    <!-- 그래프 -->
+    <!-- 현재 그래프 -->
     <div class="page" id="graphPage">
 
         <div class="card">
 
-            <h2>압력값 그래프</h2>
+            <h2>현재 압력값 그래프</h2>
 
             <canvas id="pressureChart"></canvas>
 
@@ -312,9 +297,34 @@ canvas{
 
     </div>
 
+    <!-- 이전 기록 -->
+    <div class="page" id="historyPage">
+
+        <div class="card">
+
+            <h2>이전 압력값 기록</h2>
+
+            <div class="historyCard">
+                <h3>기록 #1</h3>
+                <p>13:00 ~ 15:30</p>
+                <p>압력 변화 : 42 → 61 → 55 → 70</p>
+                <p>카페 사용 시간 : 2시간 30분</p>
+            </div>
+
+            <div class="historyCard">
+                <h3>기록 #2</h3>
+                <p>18:10 ~ 21:20</p>
+                <p>압력 변화 : 35 → 58 → 49 → 67</p>
+                <p>카페 사용 시간 : 3시간 10분</p>
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
-<!-- 하단 네비 -->
+<!-- 하단 메뉴 -->
 
 <div class="bottomNav">
 
@@ -337,45 +347,7 @@ canvas{
 
         <svg class="iconSVG" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15
-            a1.65 1.65 0 0 0 .33 1.82
-            l.06.06
-            a2 2 0 1 1-2.83 2.83
-            l-.06-.06
-            a1.65 1.65 0 0 0-1.82-.33
-            1.65 1.65 0 0 0-1 1.51V21
-            a2 2 0 1 1-4 0
-            v-.09
-            a1.65 1.65 0 0 0-1-1.51
-            1.65 1.65 0 0 0-1.82.33
-            l-.06.06
-            a2 2 0 1 1-2.83-2.83
-            l.06-.06
-            a1.65 1.65 0 0 0 .33-1.82
-            1.65 1.65 0 0 0-1.51-1H3
-            a2 2 0 1 1 0-4
-            h.09
-            a1.65 1.65 0 0 0 1.51-1
-            1.65 1.65 0 0 0-.33-1.82
-            l-.06-.06
-            a2 2 0 1 1 2.83-2.83
-            l.06.06
-            a1.65 1.65 0 0 0 1.82.33
-            h.09
-            a1.65 1.65 0 0 0 1-1.51V3
-            a2 2 0 1 1 4 0
-            v.09
-            a1.65 1.65 0 0 0 1 1.51
-            1.65 1.65 0 0 0 1.82-.33
-            l.06-.06
-            a2 2 0 1 1 2.83 2.83
-            l-.06.06
-            a1.65 1.65 0 0 0-.33 1.82
-            v.09
-            a1.65 1.65 0 0 0 1.51 1H21
-            a2 2 0 1 1 0 4
-            h-.09
-            a1.65 1.65 0 0 0-1.51 1z"/>
+            <path d="M19 12H22M2 12H5M12 2V5M12 19V22"/>
         </svg>
 
         <div class="navText">설정</div>
@@ -391,7 +363,21 @@ canvas{
             <path d="M7 16L11 12L14 15L20 8"/>
         </svg>
 
-        <div class="navText">압력값 그래프</div>
+        <div class="navText">현재 그래프</div>
+
+    </button>
+
+    <!-- 기록 -->
+    <button class="navBtn"
+        onclick="showPage('historyPage', this)">
+
+        <svg class="iconSVG" viewBox="0 0 24 24">
+            <path d="M4 5H20V19H4Z"/>
+            <path d="M8 9H16"/>
+            <path d="M8 13H16"/>
+        </svg>
+
+        <div class="navText">이전 기록</div>
 
     </button>
 
@@ -403,16 +389,17 @@ canvas{
 
 let connected = false;
 let connectSeconds = 0;
-let pressureValue = 50;
 let sameTime = 0;
-let interval;
+let interval = null;
 let warningSent = false;
+let pressureValue = 50;
 
 /* 페이지 이동 */
 
 function showPage(pageId, element){
 
-    let pages = document.querySelectorAll(".page");
+    let pages =
+        document.querySelectorAll(".page");
 
     pages.forEach(page=>{
         page.classList.remove("active");
@@ -421,7 +408,8 @@ function showPage(pageId, element){
     document.getElementById(pageId)
         .classList.add("active");
 
-    let navs = document.querySelectorAll(".navBtn");
+    let navs =
+        document.querySelectorAll(".navBtn");
 
     navs.forEach(nav=>{
         nav.classList.remove("activeNav");
@@ -447,7 +435,7 @@ const pressureChart = new Chart(ctx, {
             data:[],
             borderColor:'#b266ff',
             borderWidth:3,
-            tension:0.3
+            tension:0.4
         }]
     },
 
@@ -462,7 +450,7 @@ const pressureChart = new Chart(ctx, {
 
 });
 
-/* 장치 연결 / 해제 */
+/* 연결 */
 
 function toggleDevice(){
 
@@ -481,12 +469,11 @@ function toggleDevice(){
     const liveState =
         document.getElementById("liveState");
 
-    /* 연결 */
-
     if(!connected){
 
         connected = true;
         warningSent = false;
+        sameTime = 0;
 
         topArea.classList.remove("danger");
         topArea.classList.add("safe");
@@ -507,8 +494,6 @@ function toggleDevice(){
         startPressure();
 
     }
-
-    /* 해제 */
 
     else{
 
@@ -570,14 +555,17 @@ setInterval(()=>{
 
 function startPressure(){
 
-    sameTime = 0;
-
     let limit =
         parseInt(
             document.getElementById("timeLimit").value
         );
 
     interval = setInterval(()=>{
+
+        pressureValue =
+            Math.floor(
+                40 + Math.random() * 30
+            );
 
         let current = new Date();
 
@@ -608,16 +596,22 @@ function startPressure(){
 
         sameTime++;
 
-        if(sameTime >= limit && !warningSent){
+        /* 경고 한번만 */
 
-            warningSent = true;
+        if(sameTime >= limit){
 
-            document.getElementById("warningBox")
-                .style.display = "block";
+            if(!warningSent){
 
-            alert(
-                "분실물 감지! 물건을 확인하세요."
-            );
+                warningSent = true;
+
+                document.getElementById("warningBox")
+                    .style.display = "block";
+
+                alert(
+                    "분실물 감지! 물건을 확인하세요."
+                );
+
+            }
 
         }
 
