@@ -31,6 +31,8 @@ body{
     padding-bottom:100px;
 }
 
+/* 상단 */
+
 .top{
     width:100%;
     padding:45px 20px;
@@ -43,7 +45,7 @@ body{
 }
 
 .safe{
-    background:linear-gradient(135deg,#006b2d,#00b85c);
+    background:linear-gradient(135deg,#004d2a,#00b85c);
 }
 
 .title{
@@ -53,27 +55,51 @@ body{
 }
 
 .status{
-    font-size:26px;
-    margin-top:15px;
+    font-size:24px;
+    margin-top:10px;
+    transition:0.3s;
 }
 
 .device{
-    margin-top:12px;
+    margin-top:8px;
     opacity:0.9;
-    font-size:18px;
+    font-size:17px;
+    transition:0.3s;
 }
 
+/* 연결 후 크기 축소 */
+
+.connectedCompact .title{
+    font-size:34px;
+}
+
+.connectedCompact .status{
+    font-size:19px;
+}
+
+.connectedCompact .device{
+    font-size:15px;
+}
+
+.connectedCompact{
+    padding:25px 20px;
+}
+
+/* 버튼 */
+
 .connectBtn{
-    margin-top:25px;
-    padding:15px 30px;
+    margin-top:20px;
+    padding:14px 28px;
     border:none;
-    border-radius:20px;
+    border-radius:18px;
     background:white;
     color:black;
-    font-size:18px;
+    font-size:17px;
     cursor:pointer;
     font-weight:bold;
 }
+
+/* 페이지 */
 
 .page{
     display:none;
@@ -85,9 +111,11 @@ body{
     display:block;
 }
 
+/* 카드 */
+
 .card{
     background:#1d1d1d;
-    border-radius:20px;
+    border-radius:22px;
     padding:22px;
     margin-bottom:20px;
     box-shadow:0 0 15px rgba(0,0,0,0.3);
@@ -96,6 +124,8 @@ body{
 .card h2{
     margin-bottom:15px;
 }
+
+/* 경고 */
 
 .warning{
     margin-top:25px;
@@ -113,6 +143,8 @@ body{
     100%{opacity:1;}
 }
 
+/* 하단 네비 */
+
 .bottomNav{
     position:fixed;
     bottom:0;
@@ -127,7 +159,6 @@ body{
 }
 
 .navBtn{
-    color:white;
     background:none;
     border:none;
     cursor:pointer;
@@ -135,20 +166,25 @@ body{
     flex-direction:column;
     align-items:center;
     gap:5px;
+    color:#9a9a9a;
     transition:0.3s;
-}
-
-.icon{
-    font-size:28px;
 }
 
 .navText{
     font-size:14px;
 }
 
+.iconSVG{
+    width:28px;
+    height:28px;
+    fill:currentColor;
+}
+
 .activeNav{
     color:#b266ff;
 }
+
+/* 입력창 */
 
 input{
     width:100%;
@@ -160,17 +196,7 @@ input{
     font-size:16px;
 }
 
-.simulateBtn{
-    margin-top:15px;
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:15px;
-    background:#00b85c;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
-}
+/* 그래프 */
 
 canvas{
     background:white;
@@ -178,10 +204,12 @@ canvas{
     padding:10px;
 }
 
+/* 정보 */
+
 .infoBox{
     margin-top:20px;
     font-size:18px;
-    line-height:1.8;
+    line-height:1.9;
 }
 
 </style>
@@ -204,8 +232,12 @@ canvas{
             현재 연결된 기기 없음
         </div>
 
-        <button class="connectBtn" onclick="connectDevice()">
-            기기 연결하기
+        <button class="connectBtn"
+            id="connectBtn"
+            onclick="toggleDevice()">
+
+            장치 연결하기
+
         </button>
 
     </div>
@@ -218,8 +250,8 @@ canvas{
             <h2>현재 상태</h2>
 
             <p>
-                테이블 위 물건이 일정 시간 이상 감지되면
-                사용자에게 즉시 경고 알림을 보냅니다.
+                물건이 일정 시간 이상 감지되면
+                사용자에게 즉시 알림을 보냅니다.
             </p>
 
             <div class="infoBox">
@@ -277,39 +309,48 @@ canvas{
 
             <canvas id="pressureChart"></canvas>
 
-            <button class="simulateBtn" onclick="startSimulation()">
-                압력 감지 시작하기
-            </button>
-
         </div>
 
     </div>
 
 </div>
 
-<!-- 하단 네비게이션 -->
+<!-- 하단 네비 -->
+
 <div class="bottomNav">
 
+    <!-- 홈 -->
     <button class="navBtn activeNav"
         onclick="showPage('homePage', this)">
 
-        <div class="icon">🏠</div>
+        <svg class="iconSVG" viewBox="0 0 24 24">
+            <path d="M12 3L3 10V21H10V14H14V21H21V10L12 3Z"/>
+        </svg>
+
         <div class="navText">홈</div>
 
     </button>
 
+    <!-- 설정 -->
     <button class="navBtn"
         onclick="showPage('settingPage', this)">
 
-        <div class="icon">⚙️</div>
+        <svg class="iconSVG" viewBox="0 0 24 24">
+            <path d="M19.14,12.94A7.48,7.48,0,0,0,19.2,12a7.48,7.48,0,0,0-.06-.94l2.11-1.65a.5.5,0,0,0,.12-.64l-2-3.46a.5.5,0,0,0-.6-.22l-2.49,1a7.28,7.28,0,0,0-1.63-.94l-.38-2.65A.5.5,0,0,0,13.78,2H10.22a.5.5,0,0,0-.49.42L9.35,5.07a7.28,7.28,0,0,0-1.63.94l-2.49-1a.5.5,0,0,0-.6.22l-2,3.46a.5.5,0,0,0,.12.64L4.86,11.06A7.48,7.48,0,0,0,4.8,12a7.48,7.48,0,0,0,.06.94L2.75,14.59a.5.5,0,0,0-.12.64l2,3.46a.5.5,0,0,0,.6.22l2.49-1a7.28,7.28,0,0,0,1.63.94l.38,2.65a.5.5,0,0,0,.49.42h3.56a.5.5,0,0,0,.49-.42l.38-2.65a7.28,7.28,0,0,0,1.63-.94l2.49,1a.5.5,0,0,0,.6-.22l2-3.46a.5.5,0,0,0-.12-.64ZM12,15.5A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/>
+        </svg>
+
         <div class="navText">설정</div>
 
     </button>
 
+    <!-- 그래프 -->
     <button class="navBtn"
         onclick="showPage('graphPage', this)">
 
-        <div class="icon">📈</div>
+        <svg class="iconSVG" viewBox="0 0 24 24">
+            <path d="M3 3V21H21V19H5V3H3ZM7 17H9V10H7V17ZM11 17H13V6H11V17ZM15 17H17V13H15V17Z"/>
+        </svg>
+
         <div class="navText">압력값 그래프</div>
 
     </button>
@@ -318,11 +359,13 @@ canvas{
 
 <script>
 
+/* 변수 */
+
 let connected = false;
-let simulationRunning = false;
-let pressureValue = 0;
-let sameTime = 0;
 let connectSeconds = 0;
+let pressureValue = 50;
+let sameTime = 0;
+let interval;
 
 /* 페이지 이동 */
 
@@ -347,27 +390,107 @@ function showPage(pageId, element){
 
 }
 
-/* 기기 연결 */
+/* 그래프 */
 
-function connectDevice(){
+const ctx =
+document.getElementById('pressureChart');
 
-    connected = true;
+const pressureChart = new Chart(ctx, {
 
-    document.getElementById("topArea")
-        .classList.remove("danger");
+    type:'line',
 
-    document.getElementById("topArea")
-        .classList.add("safe");
+    data:{
+        labels:[],
+        datasets:[{
+            label:'압력값',
+            data:[],
+            borderColor:'#b266ff',
+            borderWidth:3,
+            tension:0.3
+        }]
+    },
 
-    document.getElementById("statusText")
-        .innerHTML = "✔ 기기 연결됨";
+    options:{
+        responsive:true,
+        scales:{
+            y:{
+                beginAtZero:true
+            }
+        }
+    }
 
-    document.getElementById("deviceText")
-        .innerHTML =
-        "연결된 기기 : Table Sensor #03";
+});
 
-    document.getElementById("liveState")
-        .innerHTML = "정상 연결됨";
+/* 장치 연결 / 해제 */
+
+function toggleDevice(){
+
+    const topArea =
+        document.getElementById("topArea");
+
+    const statusText =
+        document.getElementById("statusText");
+
+    const deviceText =
+        document.getElementById("deviceText");
+
+    const connectBtn =
+        document.getElementById("connectBtn");
+
+    const liveState =
+        document.getElementById("liveState");
+
+    /* 연결 */
+
+    if(!connected){
+
+        connected = true;
+
+        topArea.classList.remove("danger");
+        topArea.classList.add("safe");
+        topArea.classList.add("connectedCompact");
+
+        statusText.innerHTML =
+            "✔ 기기 연결됨";
+
+        deviceText.innerHTML =
+            "연결된 기기 : Table Sensor #03";
+
+        connectBtn.innerHTML =
+            "장치 해제하기";
+
+        liveState.innerHTML =
+            "압력 감지중";
+
+        startPressure();
+
+    }
+
+    /* 해제 */
+
+    else{
+
+        connected = false;
+
+        topArea.classList.remove("safe");
+        topArea.classList.remove("connectedCompact");
+        topArea.classList.add("danger");
+
+        statusText.innerHTML =
+            "⚠ 분실 위험 있음";
+
+        deviceText.innerHTML =
+            "현재 연결된 기기 없음";
+
+        connectBtn.innerHTML =
+            "장치 연결하기";
+
+        liveState.innerHTML =
+            "연결 종료됨";
+
+        clearInterval(interval);
+
+    }
 
 }
 
@@ -393,46 +516,9 @@ setInterval(()=>{
 
 },1000);
 
-/* 그래프 */
+/* 압력 감지 */
 
-const ctx =
-document.getElementById('pressureChart');
-
-const pressureChart = new Chart(ctx, {
-
-    type:'line',
-
-    data:{
-        labels:[],
-        datasets:[{
-            label:'압력값',
-            data:[],
-            borderColor:'red',
-            borderWidth:3,
-            tension:0.3
-        }]
-    },
-
-    options:{
-        responsive:true,
-        scales:{
-            y:{
-                beginAtZero:true
-            }
-        }
-    }
-
-});
-
-/* 시뮬레이션 */
-
-function startSimulation(){
-
-    if(simulationRunning) return;
-
-    simulationRunning = true;
-
-    pressureValue = 50;
+function startPressure(){
 
     sameTime = 0;
 
@@ -441,7 +527,7 @@ function startSimulation(){
             document.getElementById("timeLimit").value
         );
 
-    const interval = setInterval(()=>{
+    interval = setInterval(()=>{
 
         let current = new Date();
 
@@ -480,10 +566,6 @@ function startSimulation(){
             alert(
                 "분실물 감지! 물건을 확인하세요."
             );
-
-            clearInterval(interval);
-
-            simulationRunning = false;
 
         }
 
